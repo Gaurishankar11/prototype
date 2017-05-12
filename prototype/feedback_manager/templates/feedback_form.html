@@ -1,0 +1,50 @@
+{% load staticfiles %}
+<html>
+<head>
+<title>Feedback Widget Flat Responsive Widget Template :: w3layouts</title>
+<!-- for-mobile-apps -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<meta name="keywords" content="Feedback Widget Responsive, Login form web template, Sign up Web Templates, Flat Web Templates, Login signup Responsive web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<!-- //for-mobile-apps -->
+<link href='//fonts.googleapis.com/css?family=Amaranth:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Josefin+Slab:400,100,100italic,300,300italic,400italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+<link href="/static/style.css" rel="stylesheet" type="text/css" media="all" />
+</head>
+<body>
+
+<div class="content">
+	<h1>{{objs.feedback_type}}</h1>
+	<div class="main">
+      {% if messages %}    {% for message in messages %}
+      <span style="color:gray">{{message}} </span>
+      {% endfor %}
+      {% endif %}
+		<form action="" method="post">
+			{% csrf_token %}
+			 {% for feedback_qusetion_map in objs.map_feedbacks.all %}
+         <input class="quest" type="hidden" name="feedback_qusetion_map_id" value="{{feedback_qusetion_map.id}}">
+			<h5>{{feedback_qusetion_map.question.text}}</h5>
+					{% if feedback_qusetion_map.question.is_subjective %}
+						  <input type="text" name="answer-{{feedback_qusetion_map.id}}" { % if feedback_qusetion_map.submitted_answer % } value="{% if feedback_qusetion_map.submitted_answer %}{{feedback_qusetion_map.submitted_answer}}{% else %}{% endif %}" required="">
+					{% else %}
+						<div class="radio-btns">
+						<div class="swit">
+                  {% for option in feedback_qusetion_map.question.options.all %}
+                        <div class="my_radio">
+                        <input type="radio" required name="answer-{{feedback_qusetion_map.id}}" value="{{option.id}}" /><i></i>{{option}} </div>
+                  {% endfor %}
+            </div>
+						</div>
+  						{% endif %}
+		{% endfor %}
+
+    <input class="btn btn-submit" type="submit" value="Submit" > &nbsp; <p id="successtext"></p>
+		</form>
+	</div>
+</div>
+
+</body>
+</html>
